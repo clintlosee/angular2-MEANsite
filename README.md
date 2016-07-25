@@ -1,1 +1,1 @@
-# Angular2 MEAN Seed Project
+# Angular2 MEAN Project

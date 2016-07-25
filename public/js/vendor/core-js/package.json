@@ -2,7 +2,7 @@
   "_args": [
     [
       "core-js@^2.4.0",
-      "/Users/clintlosee/Code/MEAN/ng2"
+      "/Users/clintlosee/Code/MEAN/ngApp"
     ]
   ],
   "_from": "core-js@>=2.4.0 <3.0.0",
@@ -30,13 +30,15 @@
     "type": "range"
   },
   "_requiredBy": [
-    "/"
+    "/",
+    "/babel-register",
+    "/babel-runtime"
   ],
   "_resolved": "https://registry.npmjs.org/core-js/-/core-js-2.4.1.tgz",
   "_shasum": "4de911e667b0eae9124e34254b53aea6fc618d3e",
   "_shrinkwrap": null,
   "_spec": "core-js@^2.4.0",
-  "_where": "/Users/clintlosee/Code/MEAN/ng2",
+  "_where": "/Users/clintlosee/Code/MEAN/ngApp",
   "bugs": {
     "url": "https://github.com/zloirock/core-js/issues"
   },

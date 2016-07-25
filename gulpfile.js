@@ -18,7 +18,7 @@ gulp.task('build-ts', function() {
 });
 
 gulp.task('build-copy', function() {
-    return gulp.src([appDev + '**/*.html', appDev + '**/*.htm', appDev + '**/*.css'])
+    return gulp.src([appDev + '/**/*.html', appDev + '/**/*.htm', appDev + '/**/*.css'])
         .pipe(gulp.dest('public/js'));
 });
 
@@ -47,8 +47,8 @@ gulp.task('clean', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch(appDev + '**/*.ts', ['build-ts']);
-    gulp.watch(appDev + '**/*.{html,htm,css}', ['build-copy']);
+    gulp.watch(appDev + '/**/*.ts', ['build-ts']);
+    gulp.watch(appDev + '/**/*.{html,htm,css}', ['build-copy']);
 });
 
 gulp.task('build', ['build-ts', 'build-copy', 'vendor']);

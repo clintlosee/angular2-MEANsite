@@ -1,21 +1,20 @@
 import { Component } from '@angular/core';
-import { MessageListComponent } from './message/message-list.component';
-import { MessageInputComponent } from './message/message-input.component';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { HeaderComponent } from './header.component';
+import { MessagesComponent } from './message/messages.component';
+import { AuthenticationComponent } from './user/authentication.component';
 
 @Component({
     moduleId: module.id,
     selector: 'my-app',
     template: `
-        <div class="row spacing">
-            <message-input></message-input>
-        </div>
-        <div class="row spacing">
-            <message-list></message-list>
-        </div>
+        <div class="container">
+            <header></header>
+            <router-outlet></router-outlet>
+        </div> 
     `,
-    directives: [MessageListComponent, MessageInputComponent]
+    directives: [ROUTER_DIRECTIVES, HeaderComponent],
+    precompile: [HeaderComponent, MessagesComponent, AuthenticationComponent]
 })
 
-export class AppComponent {
-    
-}
+export class AppComponent {}

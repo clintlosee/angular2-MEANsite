@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
+import { SignupComponent } from './signup.component';
 
 @Component({
     selector: 'auth',
     template: `
-        <div class="row">
-            <h1>Auth</h1>
-        </div>
-    `
+        <h1>Auth</h1>
+        <signup></signup>
+    `,
+    directives: [SignupComponent]
 })
 
 export class AuthenticationComponent {}

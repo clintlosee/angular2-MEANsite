@@ -4,7 +4,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 @Component({
     selector: 'header',
     template: `
-        <header>
+        <header class="row">
             <nav class="col-md-8 col-md-offset-2">
                 <ul class="nav nav-pills">
                     <li><a [routerLink]="['/messages']">Messenges</a></li>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ControlGroup, Validators } from '@angular/common';
+import { FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
+import { CustomValidators } from './customValidators';
 
 @Component({
     selector: 'signup',
@@ -8,7 +9,12 @@ import { FormBuilder, ControlGroup, Validators } from '@angular/common';
             <form [ngFormModel]="myForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
-                    <input [ngFormControl]="myForm.find('firstName')" type="text" id="firstName" class="form-control">
+                    <input 
+                        [ngFormControl]="myForm.find('firstName')"
+                        
+                        type="text" 
+                        id="firstName" 
+                        class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
@@ -41,7 +47,10 @@ export class SignupComponent implements OnInit {
         this.myForm = this._fb.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            email: ['', Validators.required],
+            email: ['', Validators.compose([
+                Validators.required,
+                CustomValidators.isEmail
+            ])],
             password: ['', Validators.required]
         });
     }

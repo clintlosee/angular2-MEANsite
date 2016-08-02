@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
 import { CustomValidators } from './customValidators';
 
 import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@angular/forms';

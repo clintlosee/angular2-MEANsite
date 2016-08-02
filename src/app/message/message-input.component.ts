@@ -9,7 +9,12 @@ import { MessageService } from './message.service';
             <form (ngSubmit)="onSubmit(f.value)" #f="ngForm">
                 <div class="form-group">
                     <label for="content">Content</label>
-                    <input ngControl="content" type="text" class="form-control" #input>
+                    <input 
+                        [ngModel]="content" 
+                        type="text"
+                        name="content"
+                        class="form-control" 
+                        #input="ngModel">
                 </div>
                 <button type="submit" class="btn btn-primary">Send Mesasge</button>
             </form>

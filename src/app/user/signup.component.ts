@@ -1,56 +1,66 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, ControlGroup, Validators, Control } from '@angular/common';
 import { CustomValidators } from './customValidators';
+
+import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'signup',
     template: `
         <section class="col-md-8 col-md-offset-2">
-            <form [ngFormModel]="myForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
                     <input 
-                        [ngFormControl]="myForm.find('firstName')"
-                        
+                        formControlName="firstName"
                         type="text" 
                         id="firstName" 
                         class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="lastName">Last Name</label>
-                    <input [ngFormControl]="myForm.find('lastName')" type="text" id="lastName" class="form-control">
+                    <input 
+                        formControlName="lastName" 
+                        type="text" 
+                        id="lastName" 
+                        class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="email">Email</label>
-                    <input [ngFormControl]="myForm.find('email')" type="email" id="email" class="form-control">
+                    <input 
+                        formControlName="email" 
+                        type="email" 
+                        id="email" 
+                        class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="password">Password</label>
-                    <input [ngFormControl]="myForm.find('password')" type="password" id="password" class="form-control">
+                    <input 
+                        formControlName="password" 
+                        type="password" 
+                        id="password" 
+                        class="form-control">
                 </div>
-                <button type="submit" class="btn btn-primary" [disabled]="!myForm.valid">Sign Up</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!signupForm.valid">Sign Up</button>
             </form>
         </section>
-    `
+    `,
+    directives: [REACTIVE_FORM_DIRECTIVES]
 })
 
 export class SignupComponent implements OnInit {
-    myForm: ControlGroup;
+    signupForm: FormGroup;
 
-    constructor(private _fb:FormBuilder) {}
+    constructor(private formBuilder: FormBuilder) {}
 
     onSubmit() {
-        console.log(this.myForm.value);
+        console.log(this.signupForm.value);
     }
-
+    
     ngOnInit() {
-        this.myForm = this._fb.group({
+        this.signupForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
-            email: ['', Validators.compose([
-                Validators.required,
-                CustomValidators.isEmail
-            ])],
+            email: ['', [Validators.required, CustomValidators.isEmail]],
             password: ['', Validators.required]
         });
     }

@@ -40,15 +40,15 @@ router.post('/signin', function(req, res, next) {
         }
         if (!doc) {
             return res.status(404).json({
-                title: 'No user found',
-                error: { message: 'User could not be found' }
+                title: 'User Not Found!',
+                error: { message: 'Sorry, we could not find that user.' }
             });
         }
 
         if (!passwordHash.verify(req.body.password, doc.password)) {
             return res.status(400).json({
-                title: 'Could not sign in',
-                error: {message: 'Invalid password'}
+                title: 'Could Not Sign You In!',
+                error: {message: 'Please check the password you entered.'}
             });
         }
 

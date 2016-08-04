@@ -3,6 +3,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { HeaderComponent } from './header.component';
 import { MessagesComponent } from './message/messages.component';
 import { AuthenticationComponent } from './user/authentication.component';
+import { ErrorComponent } from './errors/errors.component';
 
 @Component({
     moduleId: module.id,
@@ -11,9 +12,10 @@ import { AuthenticationComponent } from './user/authentication.component';
         <div class="container">
             <header></header>
             <router-outlet></router-outlet>
-        </div> 
+        </div>
+        <error></error>
     `,
-    directives: [ROUTER_DIRECTIVES, HeaderComponent],
+    directives: [ROUTER_DIRECTIVES, HeaderComponent, ErrorComponent],
     precompile: [HeaderComponent, MessagesComponent, AuthenticationComponent]
 })
 

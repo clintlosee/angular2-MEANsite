@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Message } from './message';
 import { MessageService } from './message.service';
+import { ErrorService } from '../errors/error.service';
 
 @Component({
     selector: 'message',
@@ -43,7 +44,7 @@ export class MessageComponent {
     @Input() message:Message;
     @Output() editClicked = new EventEmitter<string>();
 
-    constructor(private _messageService: MessageService) {}
+    constructor(private _messageService: MessageService, private _errorService: ErrorService) {}
 
     onEdit() {
         this._messageService.editMessage(this.message);
@@ -53,7 +54,7 @@ export class MessageComponent {
         this._messageService.deleteMessage(this.message)
             .subscribe(
                 data => console.log(data),
-                error => console.error(error)
+                error => this._errorService.handleError(error)
             );
     }
 

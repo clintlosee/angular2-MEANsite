@@ -28,8 +28,8 @@ router.use('/', function(req, res, next) {
     jwt.verify(req.query.token, 'secret', function(err, decoded) {
         if (err) {
             return res.status(401).json({
-                title: 'Authentication failed',
-                error: err
+                title: 'Authentication Failed!',
+                error: {message: 'Please sign in in order to post a message.'}
             });
         }
         next();

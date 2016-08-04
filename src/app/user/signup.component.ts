@@ -4,6 +4,7 @@ import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@a
 import { Router } from '@angular/router';
 import { User } from './user';
 import { AuthService } from './auth.service';
+import { ErrorService } from '../errors/error.service';
 
 @Component({
     selector: 'signup',
@@ -52,7 +53,7 @@ import { AuthService } from './auth.service';
 export class SignupComponent implements OnInit {
     signupForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder, private _authService: AuthService, private _router: Router) {}
+    constructor(private formBuilder: FormBuilder, private _authService: AuthService, private _router: Router, private _errorService: ErrorService) {}
 
     onSubmit() {
         const user = new User(
@@ -64,7 +65,7 @@ export class SignupComponent implements OnInit {
         this._authService.signup(user)
             .subscribe(
                 data => console.log(data),
-                error => console.error(error)
+                error => this._errorService.handleError(error)
             );
         this._router.navigate(['/auth/signin']);
     }

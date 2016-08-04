@@ -1,11 +1,13 @@
 var express = require('express');
 var router = express.Router();
-
+var jwt = require('jsonwebtoken');
 var Message = require('../models/message');
+var User = require('../models/user');
 
 /* Get Messages */
 router.get('/', function(req, res, next) {
     Message.find()
+        .populate('user', 'firstName')
         .exec(function(err, docs) {
             if (err) {
                 return res.status(400).json({
@@ -21,15 +23,23 @@ router.get('/', function(req, res, next) {
         });
 });
 
-/* Route Middleware */
+/* Route Authentication Middleware */
+router.use('/', function(req, res, next) {
+    jwt.verify(req.query.token, 'secret', function(err, decoded) {
+        if (err) {
+            return res.status(401).json({
+                title: 'Authentication failed',
+                error: err
+            });
+        }
+        next();
+    });
+});
 
 /* Post Message */
 router.post('/', function(req, res, next) {
-    var message = new Message({
-        content: req.body.content
-    });
-
-    message.save(function(err, result) {
+    var decoded = jwt.decode(req.query.token);
+    User.findById(decoded.user._id, function(err, doc) {
         if (err) {
             return res.status(400).json({
                 title: 'An error occurred',
@@ -37,15 +47,33 @@ router.post('/', function(req, res, next) {
             });
         }
 
-        res.status(201).json({
-            message: 'Saved message',
-            obj: result
+        var message = new Message({
+            content: req.body.content,
+            user: doc
+        });
+
+        message.save(function(err, result) {
+            if (err) {
+                return res.status(404).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+
+            doc.messages.push(result);
+            doc.save();
+            
+            res.status(201).json({
+                message: 'Saved message',
+                obj: result
+            });
         });
     });
 });
 
 /* Patch Message */
 router.patch('/:id', function(req, res, next) {
+    var decoded = jwt.decode(req.query.token);
     Message.findById(req.params.id, function(err, doc) {
         if (err) {
             return res.status(404).json({
@@ -57,6 +85,12 @@ router.patch('/:id', function(req, res, next) {
             return res.status(404).json({
                 title: 'No message found',
                 error: { message: 'Message could not be found' }
+            });
+        }
+        if (doc.user != decoded.user._id) {
+            return res.status(401).json({
+                title: 'Not authorized',
+                error: { message: 'Message created by other user' }
             });
         }
 
@@ -79,6 +113,7 @@ router.patch('/:id', function(req, res, next) {
 
 /* Delete Message */
 router.delete('/:id', function(req, res, next) {
+    var decoded = jwt.decode(req.query.token);
     Message.findById(req.params.id, function(err, doc) {
         if (err) {
             return res.status(404).json({
@@ -90,6 +125,12 @@ router.delete('/:id', function(req, res, next) {
             return res.status(404).json({
                 title: 'No message found',
                 error: { message: 'Message could not be found' }
+            });
+        }
+        if (doc.user != decoded.user._id) {
+            return res.status(401).json({
+                title: 'Not authorized',
+                error: { message: 'Message created by other user' }
             });
         }
 

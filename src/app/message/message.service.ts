@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 
 @Injectable()
 export class MessageService {
@@ -19,7 +20,7 @@ export class MessageService {
                 let objs: any[] = [];
 
                 for (let i = 0; i < data.length; i++) {
-                    let message = new Message(data[i].content, data[i]._id, 'Dummy', null);
+                    let message = new Message(data[i].content, data[i]._id, data[i].user.firstName, data[i].user._id);
                     objs.push(message);
                 }
                 return objs;
@@ -32,10 +33,11 @@ export class MessageService {
         const headers = new Headers({
             'Content-Type': 'application/json'
         });
-        return this._http.post('/messages', body, {headers: headers})
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this._http.post('/messages' + token, body, {headers: headers})
             .map(response => {
                 const data = response.json().obj;
-                let message = new Message(data.content, data._id, 'Dummy', null);
+                let message = new Message(data.content, data._id, data.user.firstName, data.user._id);
                 return message;
             })
             .catch(error => Observable.throw(error.json()));
@@ -46,7 +48,9 @@ export class MessageService {
         const headers = new Headers({
             'Content-Type': 'application/json'
         });
-        return this._http.patch('/messages/' + message.messageId, body, {headers: headers})
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+
+        return this._http.patch('/messages/' + message.messageId + token, body, {headers: headers})
             .map(response => response.json())
             .catch(error => Observable.throw(error.json()));
     }
@@ -57,7 +61,8 @@ export class MessageService {
 
     deleteMessage(message: Message) {
         this.messages.splice(this.messages.indexOf(message), 1);
-        return this._http.delete('/messages/' + message.messageId)
+        const token = localStorage.getItem('token') ? '?token=' + localStorage.getItem('token') : '';
+        return this._http.delete('/messages/' + message.messageId + token)
             .map(response => response.json())
             .catch(error => Observable.throw(error.json()));
     }

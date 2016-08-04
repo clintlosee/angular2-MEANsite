@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CustomValidators } from './customValidators';
-
 import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from './user';
+import { AuthService } from './auth.service';
 
 @Component({
     selector: 'signup',
@@ -50,10 +51,21 @@ import { REACTIVE_FORM_DIRECTIVES, FormBuilder, FormGroup, Validators } from '@a
 export class SignupComponent implements OnInit {
     signupForm: FormGroup;
 
-    constructor(private formBuilder: FormBuilder) {}
+    constructor(private formBuilder: FormBuilder, private _authService: AuthService) {}
 
     onSubmit() {
-        console.log(this.signupForm.value);
+        const user = new User(
+            this.signupForm.value.email, 
+            this.signupForm.value.password, 
+            this.signupForm.value.firstName, 
+            this.signupForm.value.lastName
+        );
+        this._authService.signup(user)
+            .subscribe(
+                data => console.log(data),
+                error => console.error(error)
+            );
+        console.log(user);
     }
     
     ngOnInit() {

@@ -8,12 +8,14 @@ import { disableDeprecatedForms, provideForms } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { MessageService } from './message/message.service';
+import { AuthService } from './user/auth.service';
 
 import { APP_ROUTER_PROVIDERS } from './routes.app';
 
 bootstrap(AppComponent, [
     APP_ROUTER_PROVIDERS, 
-    MessageService, 
+    MessageService,
+    AuthService, 
     provide(LocationStrategy, {useClass: HashLocationStrategy}), 
     HTTP_PROVIDERS, 
     disableDeprecatedForms(), 

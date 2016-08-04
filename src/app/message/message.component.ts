@@ -33,6 +33,9 @@ import { MessageService } from './message.service';
             font-size: 12px;
             width: 19%;
         }
+        .config a {
+            cursor: pointer;
+        }
     `]
 })
 
@@ -47,6 +50,10 @@ export class MessageComponent {
     }
 
     onDelete() {
-        this._messageService.deleteMessage(this.message);
+        this._messageService.deleteMessage(this.message)
+            .subscribe(
+                data => console.log(data),
+                error => console.error(error)
+            );
     }
 }

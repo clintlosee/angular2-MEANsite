@@ -13,7 +13,7 @@ export const routes: RouterConfig = [
         path: 'auth', 
         component: AuthenticationComponent,
         children: [
-            { path: '', component: SigninComponent },
+            { path: '', component: SignupComponent },
             { path: 'signin', component: SigninComponent },
             { path: 'signup', component: SignupComponent },
             { path: 'logout', component: LogoutComponent },
